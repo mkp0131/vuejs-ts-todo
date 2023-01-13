@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
+  <div>
+    <h1>✅ TODO APP</h1>
+    <TodoForm :todoTxt="todoTxt" @input="updateTodoTxt" @add="addTodoItem" />
+    <ul v-for="(todo, index) in todos" :key="index">
+      <li>{{ todo }}</li>
+    </ul>
+    <input type="text" v-model="test" />
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script lang="ts">
+import Vue from 'vue';
+import TodoForm from './components/TodoForm.vue';
+
+interface ITodo {
+  todoTxt: string;
+  todos: string[];
+  test: string;
 }
 
-nav {
-  padding: 30px;
-}
+export default Vue.extend({
+  data(): ITodo {
+    return {
+      todoTxt: '',
+      todos: [],
+      test: '',
+    };
+  },
+  methods: {
+    updateTodoTxt(todoTxt: string) {
+      this.todoTxt = todoTxt;
+    },
+    addTodoItem() {
+      const txt = this.todoTxt;
+      this.todos.push(txt);
+      this.todoTxt = '';
+    },
+  },
+  components: { TodoForm },
+});
+</script>
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style scoped></style>
